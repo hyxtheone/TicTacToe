@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 class Square {
   constructor(isActive = false, value = "") {
