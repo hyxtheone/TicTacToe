@@ -21,26 +21,26 @@ Siga os passos abaixo para executar o projeto em sua máquina local:
 
 1. Clone o repositório para sua máquina.
 
-```bash
-git clone https://github.com/hyxtheone/TicTacToe.git
+```shell
+$ git clone https://github.com/hyxtheone/TicTacToe.git
 ```
 
 2. Navegue para o diretório do projeto.
 
-```bash
-cd TicTacToe
+```shell
+$ cd TicTacToe
 ```
 
 3. Instale as dependências do projeto.
 
-```bash
-npm install
+```shell
+$ npm install
 ```
 
 4. Execute o aplicativo em modo de desenvolvimento.
 
-```bash
-npm start
+```shell
+$ npm start
 ```
 
 5. Abra o navegador e acesse o seguinte URL.
