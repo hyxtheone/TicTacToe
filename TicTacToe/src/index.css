@@ -27,6 +27,7 @@ body {
   color: aliceblue;
   font-size: 40px;
   font-weight: 500;
+  cursor: pointer;
 }
 
 .board-main {
@@ -45,17 +46,21 @@ body {
 
 .reset {
   margin-top: 16px;
-  width: 30vw;
+  width: 150px;
   height: 36px;
   border-radius: 28px;
   border: none;
   font-size: 18px;
   background-color: rgb(255, 255, 255);
   transition: 0.5s;
-
 }
 
 .reset:hover {
   transition: 0.5s;
   background-color: rgba(255, 255, 255, 0.69);
+  cursor: pointer;
+}
+
+.active {
+  cursor: default;
 }

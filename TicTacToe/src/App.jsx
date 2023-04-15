@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 
-function temNull(array) {
-  return array.some(function(elemento) {
-    return elemento === null;
-  });
+class Square {
+  constructor(isActive = false, value = "") {
+    this.isActive = isActive;
+    this.value = value;
+  }
 }
-
 
 function ResetButton({ onButtonClick }) {
   return (
@@ -15,66 +15,56 @@ function ResetButton({ onButtonClick }) {
   );
 }
 
-function Square({value, onSquareClick}) {
+function SquareComponent({ square, onSquareClick }) {
   return (
     <button
-      className="square"
-      onClick={onSquareClick}>
-      {value}
+      className={square.isActive ? "square active" : "square"}
+      onClick={onSquareClick}
+    >
+      {square.value}
     </button>
   );
 }
 
 export default function Board() {
   const [xIsNext, setXIsNext] = useState(true);
-  const [squares, setSquares] = useState(Array(9).fill(null));
-  const [status, setStatus] = useState("Next player: X");
+  const [squares, setSquares] = useState(Array(9).fill(new Square()));
+  const [status, setStatus] = useState(`Next player: ${xIsNext ? "X" : "O"}`);
+  const [end, setEnd] = useState(false);
 
   function handleClick(i) {
+    if (squares[i].value !== "") return;
 
-    if (calculateWinner(squares) || squares[i]) {
-      console.log('continua')
+    if (end) {
       return;
     }
 
     const nextSquares = squares.slice();
 
     if (xIsNext) {
-      nextSquares[i] = "X";
+      setStatus(`Next player: ${!xIsNext ? "X" : "O"}`);
+      setXIsNext(!xIsNext);
+      nextSquares[i] = new Square(true, "X");
     } else {
-      nextSquares[i] = "O";
+      setStatus(`Next player: ${!xIsNext ? "X" : "O"}`);
+      setXIsNext(!xIsNext);
+      nextSquares[i] = new Square(true, "O");
     }
 
     setSquares(nextSquares);
     setXIsNext(!xIsNext);
 
-    if (!temNull(nextSquares) && !calculateWinner(nextSquares)) {
-      setTimeout(() => {
-        setStatus('Empate!');
-      }, 0);
-    } else {
-      setTimeout(() => {
-        if (calculateWinner(nextSquares)) {
-          setStatus('Winner: ' + calculateWinner(nextSquares));
-        } else {
-          setStatus('Next player: ' + (!xIsNext ? 'X' : 'O'));
-        }
-      }, 0);
-    }}
-
-  function handleReset() {
-    setSquares(Array(9).fill(null));
-    setXIsNext(true);
-    setStatus('Next player: ' + (xIsNext ? 'X' : 'O'))
+    if (calculateWinner(nextSquares)) {
+      setStatus(`Winner: ${xIsNext ? "X" : "O"}`);
+      setEnd(true);
+    }
   }
-
-  // const winner = calculateWinner(squares);
-
-  // if (winner) {
-  //   setStatus("Winner: " + winner)
-  // } else{
-  //   setStatus("Next player: " + (xIsNext ? "X" : "O"))
-  // }
+  function handleReset() {
+    setSquares(Array(9).fill(new Square(false, "")));
+    setXIsNext(true);
+    setStatus(`Next player: X`);
+    setEnd(false);
+  }
 
   return (
     <>
@@ -83,22 +73,48 @@ export default function Board() {
           <h1>{status}</h1>
         </div>
         <div className="board-row">
-          <Square value={squares[0]} onSquareClick={() => handleClick(0)}/>
-          <Square value={squares[1]} onSquareClick={() => handleClick(1)}/>
-          <Square value={squares[2]} onSquareClick={() => handleClick(2)}/>
+          <SquareComponent
+            square={squares[0]}
+            onSquareClick={() => handleClick(0)}
+          />
+          <SquareComponent
+            square={squares[1]}
+            onSquareClick={() => handleClick(1)}
+          />
+          <SquareComponent
+            square={squares[2]}
+            onSquareClick={() => handleClick(2)}
+          />
         </div>
 
         <div className="board-row">
-          <Square
-            value={squares[3]} onSquareClick={() => handleClick(3)}/>
-          <Square value={squares[4]} onSquareClick={() => handleClick(4)}/>
-          <Square value={squares[5]} onSquareClick={() => handleClick(5)}/>
+          <SquareComponent
+            square={squares[3]}
+            onSquareClick={() => handleClick(3)}
+          />
+          <SquareComponent
+            square={squares[4]}
+            onSquareClick={() => handleClick(4)}
+          />
+          <SquareComponent
+            square={squares[5]}
+            onSquareClick={() => handleClick(5)}
+          />
         </div>
 
         <div className="board-row">
-          <Square value={squares[6]} onSquareClick={() => handleClick(6)}/>
-          <Square value={squares[7]} onSquareClick={() => handleClick(7)}/>
-          <Square value={squares[8]} onSquareClick={() => handleClick(8)}/>
+          <SquareComponent
+            square={squares[6]}
+            onSquareClick={() => handleClick(6)}
+          />
+          <SquareComponent
+            square={squares[7]}
+            onSquareClick={() => handleClick(7)}
+          />
+          <SquareComponent
+            square={squares[8]}
+            onSquareClick={() => handleClick(8)}
+          />
         </div>
         <div>
           <ResetButton onButtonClick={() => handleReset()} />
@@ -123,8 +139,12 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
 
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+    if (
+      squares[a] &&
+      squares[a].value === squares[b].value &&
+      squares[a].value === squares[c].value
+    ) {
+      return squares[a].value;
     }
   }
 
