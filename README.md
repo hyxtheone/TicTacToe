@@ -40,7 +40,7 @@ $ npm install
 4. Execute o aplicativo em modo de desenvolvimento.
 
 ```shell
-$ npm start
+$ npm run dev
 ```
 
 5. Abra o navegador e acesse o seguinte URL.
