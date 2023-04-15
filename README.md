@@ -21,25 +21,25 @@ Siga os passos abaixo para executar o projeto em sua máquina local:
 
 1. Clone o repositório para sua máquina.
 
-```
+```bash
 git clone https://github.com/hyxtheone/TicTacToe.git
 ```
 
 2. Navegue para o diretório do projeto.
 
-```
+```bash
 cd TicTacToe
 ```
 
 3. Instale as dependências do projeto.
 
-```
+```bash
 npm install
 ```
 
 4. Execute o aplicativo em modo de desenvolvimento.
 
-```
+```bash
 npm start
 ```
 
@@ -53,18 +53,14 @@ localhost
 
 ## Personalização
 
-Você pode personalizar a aparência e o comportamento do jogo da velha ajustando as configurações no arquivo `src/TicTacToe.js`. Você pode alterar as cores, fontes, tamanhos e outras propriedades de estilo de acordo com suas preferências.
+Você pode personalizar a aparência e o comportamento do jogo da velha ajustando as configurações no arquivo `src/App.js` e `index.css`. Você pode alterar as cores, fontes, tamanhos e outras propriedades de estilo de acordo com suas preferências.
 
 ## Contribuição
 
 Se você quiser contribuir para este projeto, fique à vontade para abrir uma nova issue ou enviar um pull request. Será um prazer receber contribuições para melhorar o jogo da velha em ReactJS.
 
-## Licença
-
-Este projeto é licenciado sob a licença MIT. Consulte o arquivo LICENSE para obter mais informações.
-
 ## Autor
 
-Este jogo da velha foi criado por [Seu Nome](https://github.com/seu-usuario).
+Este jogo da velha foi criado por [José Luís](https://github.com/hyxtheone).
 
 Espero que você goste de jogar este jogo da velha em ReactJS! Divirta-se! 🎉
