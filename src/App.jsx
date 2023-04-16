@@ -58,6 +58,12 @@ export default function Board() {
       setStatus(`Winner: ${xIsNext ? "X" : "O"}`);
       setEnd(true);
     }
+
+    const draw = nextSquares.every((element) => element.isActive);
+    if (!calculateWinner(nextSquares) && draw) {
+      setStatus("Empate!");
+      setEnd(true);
+    }
   }
   function handleReset() {
     setSquares(Array(9).fill(new Square(false, "")));
