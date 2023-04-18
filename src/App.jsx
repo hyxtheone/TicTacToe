@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 class Square {
   constructor(isActive = false, value = "") {
@@ -10,7 +10,7 @@ class Square {
 function ResetButton({ onButtonClick }) {
   return (
     <button className="reset" onClick={onButtonClick}>
-      Resetar
+      Reset
     </button>
   );
 }
@@ -32,6 +32,25 @@ export default function Board() {
   const [status, setStatus] = useState(`Next player: ${xIsNext ? "X" : "O"}`);
   const [end, setEnd] = useState(false);
 
+  const nextSquares = squares.slice();
+
+  useEffect(() => {
+    setStatus(`Next player: ${!xIsNext ? "O" : "X"}`);
+
+    if (calculateWinner(nextSquares)) {
+      setStatus(`Winner: ${xIsNext ? "O" : "X"}`);
+      setEnd(true);
+    }
+
+    if (
+      !calculateWinner(nextSquares) &&
+      nextSquares.every((element) => element.isActive)
+    ) {
+      setStatus("Draw!");
+      setEnd(true);
+    }
+  }, [xIsNext]);
+
   function handleClick(i) {
     if (squares[i].value !== "") return;
 
@@ -39,32 +58,16 @@ export default function Board() {
       return;
     }
 
-    const nextSquares = squares.slice();
-
     if (xIsNext) {
-      setStatus(`Next player: ${!xIsNext ? "X" : "O"}`);
-      setXIsNext(!xIsNext);
       nextSquares[i] = new Square(true, "X");
     } else {
-      setStatus(`Next player: ${!xIsNext ? "X" : "O"}`);
-      setXIsNext(!xIsNext);
       nextSquares[i] = new Square(true, "O");
     }
 
     setSquares(nextSquares);
     setXIsNext(!xIsNext);
-
-    if (calculateWinner(nextSquares)) {
-      setStatus(`Winner: ${xIsNext ? "X" : "O"}`);
-      setEnd(true);
-    }
-
-    const draw = nextSquares.every((element) => element.isActive);
-    if (!calculateWinner(nextSquares) && draw) {
-      setStatus("Empate!");
-      setEnd(true);
-    }
   }
+
   function handleReset() {
     setSquares(Array(9).fill(new Square(false, "")));
     setXIsNext(true);
