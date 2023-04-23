@@ -29,22 +29,20 @@ function SquareComponent({ square, onSquareClick }) {
 export default function Board() {
   const [xIsNext, setXIsNext] = useState(true);
   const [squares, setSquares] = useState(Array(9).fill(new Square()));
-  const [status, setStatus] = useState(`Next player: ${xIsNext ? "X" : "O"}`);
+  const [status, setStatus] = useState();
   const [end, setEnd] = useState(false);
 
-  const nextSquares = squares.slice();
-
   useEffect(() => {
-    setStatus(`Next player: ${!xIsNext ? "O" : "X"}`);
+    setStatus(`Next Player: ${xIsNext ? "X" : "O"}`);
 
-    if (calculateWinner(nextSquares)) {
+    if (calculateWinner(squares)) {
       setStatus(`Winner: ${xIsNext ? "O" : "X"}`);
       setEnd(true);
     }
 
     if (
-      !calculateWinner(nextSquares) &&
-      nextSquares.every((element) => element.isActive)
+      !calculateWinner(squares) &&
+      squares.every((element) => element.isActive)
     ) {
       setStatus("Draw!");
       setEnd(true);
@@ -59,12 +57,12 @@ export default function Board() {
     }
 
     if (xIsNext) {
-      nextSquares[i] = new Square(true, "X");
+      squares[i] = new Square(true, "X");
     } else {
-      nextSquares[i] = new Square(true, "O");
+      squares[i] = new Square(true, "O");
     }
 
-    setSquares(nextSquares);
+    setSquares(squares);
     setXIsNext(!xIsNext);
   }
 
